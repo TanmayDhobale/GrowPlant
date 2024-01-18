@@ -48,26 +48,27 @@ const logout = () => {
   }
   
 
-  const SignOutHandler = async()=>{
-       try {
-        const { data } = await axios.delete('http://localhost:3000/api/logout') 
-        if(data.success){
-          setuserLogin(false)
-          toast({
-            description: "Successfully signed out!",
-            variant:"custom"
-          })
-          navigate.push('/')
-        }
-       } catch (error) {
-        error && console.log(error)
-        setuserLogin(true)
-         toast({
-          variant: "destructive",
-          description: `${error.response.data.message}`,
-        })
-       }
-     }
+  const SignOutHandler = async () => {
+    try {
+      const { data } = await axios.delete('http://localhost:3000/api/logout');
+      if (data.success) {
+        setuserLogin(false);
+        toast({
+          description: "Successfully signed out!",
+          variant: "custom"
+        });
+        navigate.push('/');
+      }
+    } catch (error) {
+      console.error("Logout Error:", error);
+      setuserLogin(true);
+      toast({
+        variant: "destructive",
+        description: `${error.response?.data?.message || "An error occurred during logout."}`,
+      });
+    }
+  };
+  
   
     const token = getCookie('token')
     const { theme, setTheme } = useTheme()
@@ -133,7 +134,7 @@ const logout = () => {
 
                         <div className='flex justify-evenly font-bold '  >
                         {
-                          CART_ITEMS.length === 0  ?
+                          CART_ITEMS?.length === 0  ?
                           (
                             <div className='text-2xl mt-5 ' >
                               Your Cart Is Empty!
@@ -148,7 +149,7 @@ const logout = () => {
                         }
                         </div>
                         {
-                          CART_ITEMS.length === 0  ?
+                          CART_ITEMS?.length === 0  ?
                           null : 
                           (
                         <div className='flex justify-center mt-6 ' >
